@@ -1,17 +1,27 @@
 require('dotenv').config();
 
-const SerialPort = require('serialport');
-const { Client, Intents } = require('discord.js');
+const { SerialPort } = require('serialport');
+const { DelimiterParser } = require('@serialport/parser-delimiter');
+const { ActivityType, Client, GatewayIntentBits } = require('discord.js');
 
-const client = new Client({ 
+const bot = new Client({ 
     intents: [
-        Intents.FLAGS.GUILDS
+        GatewayIntentBits.Guilds
     ] 
 });
 
-const port = new SerialPort('COM3', { baudRate: 9600 });
-const Readline = SerialPort.parsers.Readline;
-const parser = port.pipe(new Readline());
+const port = new SerialPort({ 
+    path: 'COM3', baudRate: 9600 
+});
+
+const parser = port.pipe(new DelimiterParser({ delimiter: '\n' }));
+
+function sendBlinkCallback(error) {
+    if (error) {
+        return console.log('Erro ao enviar mensagem: ', error.message);
+    }
+    console.log('Mensagem enviada para o Arduino');
+}
 
 port.on('open', () => {
     console.log('Conexão serial com Arduino estabelecida');
@@ -19,16 +29,21 @@ port.on('open', () => {
 
 parser.on('data', async data => {
     const info = data.toString();
-    
+    console.log(info);
+
     if (info.startsWith('tag:')) {
         const [_prefix, tag] = info.split(':');
         console.log(tag);
 
         if (tag.trim() === process.env.AUTHORIZED_TAG) {
-            const channel = await client.channels.fetch(process.env.CHANNEL_ID);
+            const channel = await bot.channels.fetch(process.env.CHANNEL_ID);
 
             if (channel)
                 channel.send('Acesso autorizado!');
+        }
+
+        if (tag.trim() === process.env.BLINK_TAG) {
+            port.write('B', sendBlinkCallback);
         }
     }
 });
@@ -38,9 +53,14 @@ parser.on('err', error => {
     console.log(error);
 })
 
-client.once('ready', () => {
-	console.log('ESTOU DE VOLTA, DIRETO NA SUA REALIDADE');
+bot.once('ready', () => {
+    bot.user.setPresence({
+		activities: [{ name: 'Doki Doki Literature Club', type: ActivityType.Playing }],
+		status: 'online',
+	});
+
+	console.log('Estou na sua realidade, de novo!');
 });
 
-client.login(process.env.BOT_TOKEN);
+bot.login(process.env.BOT_TOKEN);
 
