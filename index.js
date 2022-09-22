@@ -42,5 +42,5 @@ client.once('ready', () => {
 	console.log('ESTOU DE VOLTA, DIRETO NA SUA REALIDADE');
 });
 
-client.login(process.env.TOKEN);
+client.login(process.env.BOT_TOKEN);
 
