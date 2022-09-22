@@ -11,6 +11,10 @@ byte nuidPICC[4];
 PN532_I2C pn532_i2c(Wire);
 NfcAdapter nfc = NfcAdapter(pn532_i2c);
 
+unsigned long start_time; 
+unsigned long timed_event;
+unsigned long current_time; 
+
 void setup(void) {
   Serial.begin(9600);
   Serial.println("Sistema inicializado");
@@ -18,10 +22,18 @@ void setup(void) {
   pinMode(LED_PIN, OUTPUT);
   digitalWrite(LED_PIN, HIGH);
   nfc.begin();
+
+  timed_event = 2500;
+	current_time = millis();
+	start_time = current_time; 
 }
 
 void loop() {
-  readNFC();
+  current_time = millis();
+  if (current_time - start_time >= timed_event) {
+    readNFC();
+    start_time = current_time;
+  }
   receiveMessage();
 }
 
@@ -30,6 +42,16 @@ void receiveMessage() {
       byte input = Serial.read();
 
       if (input == 'B') {
+        digitalWrite(LED_PIN, LOW);
+        delay(250);
+        digitalWrite(LED_PIN,HIGH);
+      }
+
+      if (input == 'P') {
+        digitalWrite(LED_PIN, LOW);
+        delay(100);
+        digitalWrite(LED_PIN,HIGH);
+        delay(100);
         digitalWrite(LED_PIN, LOW);
         delay(100);
         digitalWrite(LED_PIN,HIGH);
@@ -44,5 +66,4 @@ void readNFC() {
     tagId = tag.getUidString();
     Serial.println("tag:" + tagId);
   }
-  delay(2000);
 }

@@ -1,13 +1,28 @@
 require('dotenv').config();
 
+require('./system/registerCommands.js');
 const { SerialPort } = require('serialport');
 const { DelimiterParser } = require('@serialport/parser-delimiter');
-const { ActivityType, Client, GatewayIntentBits } = require('discord.js');
+const { ActivityType, Client, IntentsBitField, Partials } = require('discord.js');
+
+const Intents = IntentsBitField.Flags;
 
 const bot = new Client({ 
     intents: [
-        GatewayIntentBits.Guilds
-    ] 
+		Intents.Guilds,
+		Intents.GuildMembers,
+		Intents.GuildEmojisAndStickers,
+		Intents.GuildVoiceStates,
+		Intents.GuildPresences,
+		Intents.GuildMessages,
+		Intents.GuildMessageReactions,
+		Intents.DirectMessages,
+		Intents.DirectMessageReactions,
+		Intents.GuildScheduledEvents,
+    ],
+    partials: [
+		Partials.Channel, Partials.Message, Partials.Reaction,
+	],
 });
 
 const port = new SerialPort({ 
@@ -60,6 +75,13 @@ bot.once('ready', () => {
 	});
 
 	console.log('Estou na sua realidade, de novo!');
+});
+
+bot.on('interactionCreate', async inter => {
+    if (inter.commandName === 'pisca-pisca') {
+        port.write('P', sendBlinkCallback);
+        inter.reply({ content: 'LED piscando!', ephemeral: true });
+    }
 });
 
 bot.login(process.env.BOT_TOKEN);
