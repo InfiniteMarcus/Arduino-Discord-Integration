@@ -3,7 +3,9 @@ require('dotenv').config();
 require('./system/registerCommands.js');
 const { SerialPort } = require('serialport');
 const { DelimiterParser } = require('@serialport/parser-delimiter');
+
 const { ActivityType, Client, IntentsBitField, Partials } = require('discord.js');
+const { AudioPlayerStatus, createAudioResource, createAudioPlayer, getVoiceConnection, joinVoiceChannel } = require('@discordjs/voice');
 
 const Intents = IntentsBitField.Flags;
 
@@ -26,7 +28,7 @@ const bot = new Client({
 });
 
 const port = new SerialPort({ 
-    path: 'COM3', baudRate: 9600 
+    path: 'COM5', baudRate: 9600 
 });
 
 const parser = port.pipe(new DelimiterParser({ delimiter: '\n' }));
@@ -61,6 +63,20 @@ parser.on('data', async data => {
             port.write('B', sendBlinkCallback);
         }
     }
+
+    if (info.startsWith('volume:')) {
+        const [_prefix, volume] = info.split(':');
+
+        const numericVolume = Number(volume);
+
+        const connection = getVoiceConnection(process.env.GUILD_ID);
+
+        if (connection) {
+            console.log(numericVolume);
+            const resource = connection.state.subscription.player.state.resource;
+            resource?.volume.setVolume(numericVolume);
+        }
+    }
 });
 
 parser.on('err', error => {
@@ -81,6 +97,42 @@ bot.on('interactionCreate', async inter => {
     if (inter.commandName === 'pisca-pisca') {
         port.write('P', sendBlinkCallback);
         inter.reply({ content: 'LED piscando!', ephemeral: true });
+    }
+
+    if (inter.commandName === 'musica') {
+        const voiceChannel = inter.member?.voice?.channel;
+
+        if (!voiceChannel) {
+            inter.reply({ content: 'Você precisa estar em um canal de voz para fazer isso!', ephemeral: true });
+            return;
+        }
+
+        const con = getVoiceConnection(inter.guildId) || joinVoiceChannel({
+			channelId: voiceChannel.id,
+			guildId: voiceChannel.guild.id,
+			adapterCreator: voiceChannel.guild.voiceAdapterCreator,
+			selfDeaf : false,
+		});
+
+		const resource = createAudioResource('./media/music.ogg', {
+			inlineVolume: true,
+		});
+
+		const player = createAudioPlayer();
+		con.subscribe(player);
+        player.play(resource);
+
+        player.on(AudioPlayerStatus.Playing, () => {
+            console.log('Áudio tocando!');
+        });
+
+        player.on('error', error => {
+            console.error(`Erro: ${error.message}`);
+        });
+
+        if (con && player && resource) {
+            inter.reply({ content: 'Tocando música no seu canal de voz!', ephemeral: true });
+        }
     }
 });
 

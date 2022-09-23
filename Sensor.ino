@@ -3,13 +3,18 @@
 #include <PN532.h>
 #include <NfcAdapter.h>
 
-const int LED_PIN = 13;
+#define LED_PIN 13
+#define VOLUME_MEASURE_PIN A1
+#define VIN 5
+#define DELAY_TIME 2500
 
 String tagId = "Nenhuma";
 byte nuidPICC[4];
 
 PN532_I2C pn532_i2c(Wire);
 NfcAdapter nfc = NfcAdapter(pn532_i2c);
+
+int volume = 1;
 
 unsigned long start_time; 
 unsigned long timed_event;
@@ -23,18 +28,35 @@ void setup(void) {
   digitalWrite(LED_PIN, HIGH);
   nfc.begin();
 
-  timed_event = 2500;
-	current_time = millis();
-	start_time = current_time; 
+  current_time = millis();
+  start_time = current_time; 
 }
 
 void loop() {
+  changeVolume();
+  receiveMessage();
+
   current_time = millis();
-  if (current_time - start_time >= timed_event) {
+  if (current_time - start_time >= DELAY_TIME) {
     readNFC();
     start_time = current_time;
   }
-  receiveMessage();
+}
+
+void changeVolume() {
+  int newVolume = analogRead(VOLUME_MEASURE_PIN);
+
+  if (newVolume != volume) {
+    float res = convertVolumeRawValue(newVolume);
+    Serial.println("volume:" + String(res));
+    volume = newVolume;
+  }
+}
+
+float convertVolumeRawValue(int raw){
+  float Vout = float(raw) * (VIN / float(1023));
+  float phys = (Vout)/VIN;
+  return phys;
 }
 
 void receiveMessage() {
@@ -62,7 +84,6 @@ void receiveMessage() {
 void readNFC() {
   if (nfc.tagPresent()) {
     NfcTag tag = nfc.read();
-    // tag.print();
     tagId = tag.getUidString();
     Serial.println("tag:" + tagId);
   }
