@@ -7,6 +7,6 @@ const commands = [
 
 const rest = new REST({ version: '10' }).setToken(process.env.BOT_TOKEN);
 
-rest.put(Routes.applicationCommands('705883388741156984'), { body: commands })
+rest.put(Routes.applicationCommands(process.env.CLIENT_ID), { body: commands })
 	.then(data => console.log(`${data.length} comandos registrados`))
 	.catch(console.error);

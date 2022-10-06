@@ -13,22 +13,18 @@ const bot = new Client({
     intents: [
 		Intents.Guilds,
 		Intents.GuildMembers,
-		Intents.GuildEmojisAndStickers,
 		Intents.GuildVoiceStates,
 		Intents.GuildPresences,
 		Intents.GuildMessages,
-		Intents.GuildMessageReactions,
-		Intents.DirectMessages,
-		Intents.DirectMessageReactions,
-		Intents.GuildScheduledEvents,
     ],
     partials: [
-		Partials.Channel, Partials.Message, Partials.Reaction,
+		Partials.Channel, 
+        Partials.Message,
 	],
 });
 
 const port = new SerialPort({ 
-    path: 'COM5', baudRate: 9600 
+    path: process.env.ARDUINO_PORT, baudRate: 9600 
 });
 
 const parser = port.pipe(new DelimiterParser({ delimiter: '\n' }));
@@ -86,7 +82,7 @@ parser.on('err', error => {
 
 bot.once('ready', () => {
     bot.user.setPresence({
-		activities: [{ name: 'Doki Doki Literature Club', type: ActivityType.Playing }],
+		activities: [{ name: 'Alguma coisa', type: ActivityType.Playing }],
 		status: 'online',
 	});
 
