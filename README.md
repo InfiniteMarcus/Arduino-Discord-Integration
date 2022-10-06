@@ -18,7 +18,7 @@ Os recursos utilizados neste projeto foram:
 5. Cabo para conectar o Arduino em um computador
 6. (Opcional) LED e resistor para funções de pisca-pisca (geralmente as placas Arduino já possuem um LED embutido. É este que estou usando no projeto mas você pode usar o seu próprio)
 
-![Circuito](https://github.com/InfiniteMarcus/Arduino-Discord-Integration/blob/main/circuito.png)
+![Circuito](https://github.com/InfiniteMarcus/Arduino-Discord-Integration/blob/main/docs/circuito.png)
 
 ### Software
 1. **Node.js** (linguagem padrão do bot e meio pelo qual se estabece a conexão serial com o Arduino. O projeto foi testado na **versão 17**)
@@ -57,5 +57,3 @@ O proj
 - https://how2electronics.com/interfacing-pn532-nfc-rfid-module-with-arduino/
 
 ## Imagens/screenshots
-
-![Imagem](https://github.com/InfiniteMarcus/Arduino-Discord-Integration/blob/master/circuito.png)
