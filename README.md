@@ -123,8 +123,11 @@ Atualmente, o projeto se encontra com algumas limitações:
 
 ## Referências
 - https://how2electronics.com/interfacing-pn532-nfc-rfid-module-with-arduino/
+- https://discordjs.guide/#before-you-begin
+- https://medium.com/@machadogj/arduino-and-node-js-via-serial-port-bcf9691fab6a
+- https://itp.nyu.edu/physcomp/labs/labs-serial-communication/lab-serial-control-of-an-arduino/
 
-## Imagens/screenshots
+## Imagens/gifs
 
 ![Circuito montado](https://github.com/InfiniteMarcus/Arduino-Discord-Integration/blob/main/docs/circuito_montado.jpg)
 
