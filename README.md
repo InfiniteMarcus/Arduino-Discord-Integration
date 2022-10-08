@@ -130,4 +130,4 @@ Atualmente, o projeto se encontra com algumas limitações:
 
 ![Tag para piscar LED](https://github.com/InfiniteMarcus/Arduino-Discord-Integration/blob/main/docs/tag_pisca.gif)
 
-![Tag para acesso autorizado](https://github.com/InfiniteMarcus/Arduino-Discord-Integration/blob/main/docs/tag_pisca.gif)
+![Tag para acesso autorizado](https://github.com/InfiniteMarcus/Arduino-Discord-Integration/blob/main/docs/tag_acesso.gif)
