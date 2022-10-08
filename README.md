@@ -125,3 +125,9 @@ Atualmente, o projeto se encontra com algumas limitações:
 - https://how2electronics.com/interfacing-pn532-nfc-rfid-module-with-arduino/
 
 ## Imagens/screenshots
+
+![Circuito montado](https://github.com/InfiniteMarcus/Arduino-Discord-Integration/blob/main/docs/circuito_montado.jpg)
+
+![Tag para piscar LED](https://github.com/InfiniteMarcus/Arduino-Discord-Integration/blob/main/docs/tag_pisca.gif)
+
+![Tag para acesso autorizado](https://github.com/InfiniteMarcus/Arduino-Discord-Integration/blob/main/docs/tag_pisca.gif)
