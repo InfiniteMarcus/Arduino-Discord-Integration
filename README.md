@@ -40,8 +40,13 @@ Imagem do circuito comentado:
   
 ## Passo a passo
 1. Escrevi o código para o funcionamento do bot de Discord
-  1.1 Baseado em experiências passadas, esta parte foi relativamente fácil. Decidi quais seriam as funções principais do bot para comprovar que pude estabelecer a comunicação entre Arduino-Node.js
-2. asd
+  - Baseado em experiências passadas, esta parte foi relativamente fácil. Decidi quais seriam as funções principais do bot para comprovar que pude estabelecer a comunicação entre Arduino-Node.js
+2. Comprei/encontrei os componentes do circuito, como a placa Arduino e o leitor NFC
+  - **Dica:** Diferentemente de software, o hardware pode vir com defeitos de fábrica que tornem necessário testar outras peças ou fazer trocas. Logo, quando algo não funciona, nem sempre foi um erro seu. Verifique se o componente está queimado ou se funciona em outro circuito mais simples
+ 3. Pesquisei materiais na internet sobre comunicação serial do Arduino com código Node.js
+ 4. Instalei e testei as dependências do Node.js no meu código
+ 5. Realizei testes de envio e recebimento de dados entre ambas os lados
+ 6. Implementei os últimos detalhes necessários no código para que tudo funcionasse bem
 
 ## Instalação
 
