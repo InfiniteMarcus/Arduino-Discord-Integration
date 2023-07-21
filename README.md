@@ -37,6 +37,7 @@ Imagem do circuito comentado:
 3. **Arduino IDE 2.0** (para fazer upload do código para o Arduino)
 4. **Discord.js** (para conexão com o Discord, incluso nas dependências do NPM)
 5. **[PN532_I2C.h](https://github.com/elechouse/PN532/tree/PN532_HSU/PN532_I2C)**, para usar o leitor NFC com I2C. Para usar com outras formas de comunicação, baixar a biblioteca correta e fazer as adaptações necessárias
+6. **[ffmpeg-static](https://www.npmjs.com/package/ffmpeg-static)** (se necessário, para tocar as músicas via bot)
   
 ## Passo a passo
 1. Escrevi o código para o funcionamento do bot de Discord
