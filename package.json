@@ -7,16 +7,17 @@
   "description": "",
   "scripts": {
     "start": "node index.js",
+    "register": "node system/registerCommands.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
     "@discordjs/opus": "^0.10",
     "@discordjs/voice": "^0.19",
-    "discord.js": "^14.25.1",
-    "dotenv": "^17.2.3",
+    "discord.js": "^14.26.4",
+    "dotenv": "^17.4.2",
     "ffmpeg": "^0.0.4",
     "ffmpeg-static": "^5.3",
-    "libsodium-wrappers": "^0.8.1",
+    "libsodium-wrappers": "^0.8.4",
     "serialport": "^13.0"
   }
 }
